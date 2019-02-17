@@ -38,6 +38,7 @@
 		42D8EE822219635000C2AAC2 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		42D8EE842219635500C2AAC2 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		42D8EE892219656800C2AAC2 /* MainWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainWindow.h; sourceTree = "<group>"; };
+		42D8EE8A22198F7D00C2AAC2 /* Cube.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cube.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +80,7 @@
 			children = (
 				423E4E59221960E6001DE7ED /* main.cpp */,
 				42D8EE892219656800C2AAC2 /* MainWindow.h */,
+				42D8EE8A22198F7D00C2AAC2 /* Cube.h */,
 			);
 			path = "gl-modeling-tool";
 			sourceTree = "<group>";
