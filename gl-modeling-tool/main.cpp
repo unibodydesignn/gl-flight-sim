@@ -10,9 +10,12 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "MainWindow.h"
 
-int main(int argc, const char * argv[]) {
+int main() {
     
-    std::cout << "Merhaba dunya " << std::endl;
-    return 0;
+    MainWindow* windows = new MainWindow();
+    windows->Init();
+    windows->Run();
+    
 }
