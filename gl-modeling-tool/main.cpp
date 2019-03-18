@@ -1,4 +1,3 @@
-//
 //  main.cpp
 //  gl-modeling-tool
 //
@@ -13,9 +12,9 @@
 #include "MainWindow.h"
 
 int main() {
-    
+
     MainWindow* windows = new MainWindow();
     windows->Init();
     windows->Run();
-    
+
 }

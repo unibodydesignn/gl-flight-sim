@@ -8,6 +8,7 @@
 
 #ifndef MainWindow_h
 #define MainWindow_h
+#define GLFW_STATIC
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -15,16 +16,20 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <glm/vec3.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "Cube.h"
+#include "Triangle.h"
 
 
 class MainWindow {
 
 public:
     MainWindow() {
-        windowsHeigth = 1080;
-        windowsWidth  = 1920;
+        windowsHeigth = 600;
+        windowsWidth  = 800;
     }
     ~MainWindow() { }
     
@@ -37,37 +42,53 @@ public:
     }
     
     void Init() {
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        
         if(glfwInit()) {
-            std::cout << "Could not initiate GLFW" << std::endl; }
+            std::cout << "Initiated GLFW" << std::endl;
+        }
         
         window = glfwCreateWindow(windowsWidth, windowsHeigth, "Modeling Tool", NULL, NULL);
-        
         if(window == NULL) {
             std::cout << "Error creating on windows." << std::endl;
-            
         }
         
         glfwSetCursorPosCallback(window, cursorPositionCallback);
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         glfwGetFramebufferSize(window, &windowsWidth, &windowsHeigth);
         glfwMakeContextCurrent( window );
+        
+        glewExperimental = GL_TRUE;
+        if (glewInit () != GLEW_NO_ERROR) {
+            std::cout << "Failed to initialize GLEW... " << std::endl;
+            return;
+        }
+        
         glViewport(0.0f, 0.0f, windowsWidth, windowsHeigth);
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        glOrtho( 0, windowsWidth, 0, windowsHeigth, 0, 1000 );
+        glOrtho(0, windowsWidth, 0, windowsHeigth, 0, 1000);
         glMatrixMode( GL_MODELVIEW );
         glLoadIdentity( );
     }
 
     void Run() {
-        // Loop until the user closes the window
-        while ( !glfwWindowShouldClose( window) )
-        {
-            glClear(GL_COLOR_BUFFER_BIT |GL_DEPTH_BUFFER_BIT);
-            glClearColor(0.0f/255.0f, 129.0f/255.0f, 215.0f/255.0f, 1.0f);
+        
+        Triangle *tri = new Triangle();
+        tri->Init();
+        GLuint programID = tri->LoadShaders();
+        
+        while (!glfwWindowShouldClose(window)) {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glUseProgram(programID);
+            tri->Draw();
+            glUseProgram(0);
             glfwSwapBuffers(window);
-            
-            glfwPollEvents( );
+            glfwPollEvents();
         }
         
         glfwTerminate( );
@@ -78,9 +99,6 @@ private:
     int windowsHeigth = 1080;
     int windowsWidth = 1920;
     GLFWwindow *window;
-    
-
-
 };
 
 #endif /* MainWindow_h */
