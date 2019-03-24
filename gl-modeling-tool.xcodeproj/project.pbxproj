@@ -29,6 +29,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		421787B02247CDA600E3F2A1 /* Shaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Shaders.h; sourceTree = "<group>"; };
 		423E4E56221960E6001DE7ED /* gl-modeling-tool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "gl-modeling-tool"; sourceTree = BUILT_PRODUCTS_DIR; };
 		423E4E59221960E6001DE7ED /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		423E4E61221960F6001DE7ED /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -83,6 +84,7 @@
 				42D8EE892219656800C2AAC2 /* MainWindow.h */,
 				42D8EE8A22198F7D00C2AAC2 /* Cube.h */,
 				42D0978D2230C0EE005C7AFA /* Triangle.h */,
+				421787B02247CDA600E3F2A1 /* Shaders.h */,
 			);
 			path = "gl-modeling-tool";
 			sourceTree = "<group>";

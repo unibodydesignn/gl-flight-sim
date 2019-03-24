@@ -22,14 +22,14 @@
 
 #include "Cube.h"
 #include "Triangle.h"
-
+#include "Shaders.h"
 
 class MainWindow {
 
 public:
     MainWindow() {
-        windowsHeigth = 600;
-        windowsWidth  = 800;
+        windowsHeigth = 1600;
+        windowsWidth  = 2560;
     }
     ~MainWindow() { }
     
@@ -79,13 +79,16 @@ public:
         
         Triangle *tri = new Triangle();
         tri->Init();
-        GLuint programID = tri->LoadShaders();
+        Shaders *shader = new Shaders();
+        GLuint programID = shader->GetShaderID();
+        
         
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glUseProgram(programID);
             tri->Draw();
+            //cube->Draw();
             glUseProgram(0);
             glfwSwapBuffers(window);
             glfwPollEvents();
