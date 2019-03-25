@@ -1,4 +1,5 @@
 # gl-modeling-tool
-simple 3d modeling tool created with opengl
+Very simple flight simulator created with pure OpenGL.
+Trying to implement step-by-step. Making progress everyday.
 
 readme.md will be updated when made progress 
