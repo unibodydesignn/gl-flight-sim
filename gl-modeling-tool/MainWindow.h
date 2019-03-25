@@ -79,11 +79,11 @@ public:
 
     void Run() {
         
-        Triangle *tri = new Triangle();
+        //Triangle *tri = new Triangle();
+        //tri->Init();
         shader = new Shaders();
-        
-        tri->Init();
-        
+        Cube* cube = new Cube();
+        cube->Init();
         
         while (!glfwWindowShouldClose(window)) {
             glEnable(GL_DEPTH_TEST);
@@ -98,20 +98,24 @@ public:
             glm::mat4 view          = glm::mat4(1.0f);
             glm::mat4 projection    = glm::mat4(1.0f);
             model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-            view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+            //view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+            float radius = 10.0f;
+            float camX = sin(glfwGetTime()) * radius;
+            float camZ = cos(glfwGetTime()) * radius;
+            view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
             projection = glm::perspective(glm::radians(45.0f), (float)windowsWidth / (float)windowsHeigth, 0.1f, 100.0f);
             
             shader->EditMatrix4("model", model);
             shader->EditMatrix4("view", view);
             shader->EditMatrix4("projection", projection);
             
-            tri->Draw();
+            cube->Draw();
             glUseProgram(0);
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
         
-        delete tri;
+        delete cube;
         delete shader;
         
         glfwTerminate( );
