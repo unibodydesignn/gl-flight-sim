@@ -30,7 +30,9 @@ public:
     MainWindow() {
         windowsHeigth = 1600;
         windowsWidth  = 2560;
+        programID = 0;
     }
+    
     ~MainWindow() { }
     
     static void cursorPositionCallback(GLFWwindow *window, double xPos, double yPos) {
@@ -78,21 +80,39 @@ public:
     void Run() {
         
         Triangle *tri = new Triangle();
+        shader = new Shaders();
+        
         tri->Init();
-        Shaders *shader = new Shaders();
-        GLuint programID = shader->GetShaderID();
         
         
         while (!glfwWindowShouldClose(window)) {
+            glEnable(GL_DEPTH_TEST);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+            glClearColor(96.0f/255.0f, 96.0f/255.0f, 96.0f/255.0f, 1.0f);
+            
+            shader->Init();
+            programID = shader->GetShaderID();
             glUseProgram(programID);
+            
+            glm::mat4 model         = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+            glm::mat4 view          = glm::mat4(1.0f);
+            glm::mat4 projection    = glm::mat4(1.0f);
+            model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+            view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+            projection = glm::perspective(glm::radians(45.0f), (float)windowsWidth / (float)windowsHeigth, 0.1f, 100.0f);
+            
+            shader->EditMatrix4("model", model);
+            shader->EditMatrix4("view", view);
+            shader->EditMatrix4("projection", projection);
+            
             tri->Draw();
-            //cube->Draw();
             glUseProgram(0);
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
+        
+        delete tri;
+        delete shader;
         
         glfwTerminate( );
     }
@@ -102,6 +122,8 @@ private:
     int windowsHeigth = 1080;
     int windowsWidth = 1920;
     GLFWwindow *window;
+    Shaders *shader;
+    GLuint programID;
 };
 
 #endif /* MainWindow_h */

@@ -34,7 +34,6 @@ public:
     }
     
     void Init() {
-        
         glGenVertexArrays(1, &VAO);
         glBindVertexArray(VAO);
         
@@ -53,7 +52,6 @@ public:
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         
         glBindVertexArray(0);
-
     }
     
     void Draw() {

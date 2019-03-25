@@ -21,13 +21,17 @@ class Shaders {
  
 public:
     Shaders() {
-        ProgramID = 0;
-
         VertexShaderCode =R"glsl(
                         #version 120
                         attribute vec2 position;
+        
+                        uniform mat4 model;
+                        uniform mat4 view;
+                        uniform mat4 projection;
+        
                         void main() {
-                            gl_Position = vec4(position, 0.2f, 1.0f);
+                            gl_Position = projection * view * model * vec4(position, 0.2f, 1.0f);
+                            //gl_Position = vec4(position, 0.2f, 1.0f);
                         }
                         )glsl";
         
@@ -110,6 +114,19 @@ public:
     
     GLuint GetShaderID() {
         return ProgramID;
+    }
+    
+    void EditMatrix4(std::string m_name, glm::mat4 matrix) {
+        if(m_name == "model") {
+            int modelLoc = glGetUniformLocation(ProgramID, m_name.c_str());
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(matrix));
+        } else if(m_name == "view"){
+            int modelLoc = glGetUniformLocation(ProgramID, m_name.c_str());
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &matrix[0][0]);
+        } else {
+            int modelLoc = glGetUniformLocation(ProgramID, m_name.c_str());
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(matrix));
+        }
     }
     
 private:
