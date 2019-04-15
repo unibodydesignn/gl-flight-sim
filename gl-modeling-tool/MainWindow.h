@@ -23,6 +23,8 @@
 #include "Cube.h"
 #include "Triangle.h"
 #include "Shaders.h"
+#include "Aircraft.h"
+#include "Camera.h"
 
 class MainWindow {
 
@@ -79,16 +81,16 @@ public:
 
     void Run() {
         
-        //Triangle *tri = new Triangle();
-        //tri->Init();
+        Triangle* tri = new Triangle();
+        tri->Init();
         shader = new Shaders();
-        Cube* cube = new Cube();
-        cube->Init();
+        Camera* camera = new Camera();
         
         while (!glfwWindowShouldClose(window)) {
+            
             glEnable(GL_DEPTH_TEST);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            glClearColor(96.0f/255.0f, 96.0f/255.0f, 96.0f/255.0f, 1.0f);
+            glClearColor(0.0f/255.0f, 191.0f/255.0f, 255.0f/255.0f, 1.0f);
             
             shader->Init();
             programID = shader->GetShaderID();
@@ -99,26 +101,30 @@ public:
             glm::mat4 projection    = glm::mat4(1.0f);
             model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
             //view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-            float radius = 10.0f;
-            float camX = sin(glfwGetTime()) * radius;
-            float camZ = cos(glfwGetTime()) * radius;
-            view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+            //float radius = 10.0f;
+            //float camX = sin(glfwGetTime()) * radius;
+            //float camZ = cos(glfwGetTime()) * radius;
+            //view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+            
+            
+            view = camera->GetViewMatrix();
+            camera->ProcessMouseMovement(0, <#float yoffset#>)
             projection = glm::perspective(glm::radians(45.0f), (float)windowsWidth / (float)windowsHeigth, 0.1f, 100.0f);
             
             shader->EditMatrix4("model", model);
             shader->EditMatrix4("view", view);
             shader->EditMatrix4("projection", projection);
             
-            cube->Draw();
+            tri->Draw();
             glUseProgram(0);
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
         
-        delete cube;
+        delete tri;
         delete shader;
         
-        glfwTerminate( );
+        glfwTerminate();
     }
 
 
