@@ -28,9 +28,11 @@ public:
                         uniform mat4 model;
                         uniform mat4 view;
                         uniform mat4 projection;
+                        uniform vec2 cogPosition;
         
                         void main() {
                             gl_Position = projection * view * model * vec4(position, 0.2f, 1.0f);
+                            //cogPosition = position;
                         }
                         )glsl";
         
@@ -59,7 +61,7 @@ public:
         int InfoLogLength;
         
         // Compile Vertex Shader
-        printf("Compiling shader...\n");
+        //printf("Compiling shader...\n");
         char const * VertexSourcePointer = VertexShaderCode.c_str();
         glShaderSource(VertexShaderID, 1, &VertexSourcePointer , NULL);
         glCompileShader(VertexShaderID);
@@ -74,7 +76,7 @@ public:
         }
         
         // Compile Fragment Shader
-        printf("Compiling shader...\n");
+        //printf("Compiling shader...\n");
         char const * FragmentSourcePointer = FragmentShaderCode.c_str();
         glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer , NULL);
         glCompileShader(FragmentShaderID);
@@ -89,7 +91,7 @@ public:
         }
         
         // Link the program
-        printf("Linking program\n");
+        //printf("Linking program\n");
         ProgramID = glCreateProgram();
         glAttachShader(ProgramID, VertexShaderID);
         glAttachShader(ProgramID, FragmentShaderID);
