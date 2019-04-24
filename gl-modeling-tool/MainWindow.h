@@ -36,59 +36,33 @@ Camera *camera = new Camera(glm::vec3(0.0f, 0.0f, -10.0f));
 glm::mat4 model;
 glm::mat4 view;
 glm::mat4 projection;
+float unit = 3.0f;
+float movementSpeed = 0.5f;
+float velocity;
 
 void DoMovement( )
 {
     // Camera controls
-    if( keys[GLFW_KEY_W] )
-    {
+    
+    if( keys[GLFW_KEY_W] ) {
         camera->ProcessKeyboard( FORWARD, deltaTime );
-        model = glm::translate(model, glm::vec3(-2.0f, 0.0f, 0.0f));
     }
     
-    if( keys[GLFW_KEY_S]  )
-    {
+    if( keys[GLFW_KEY_S]  ) {
         camera->ProcessKeyboard( BACKWARD, deltaTime );
-        
-        model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
     }
     
-    if( keys[GLFW_KEY_A] )
-    {
+    if( keys[GLFW_KEY_A] ) {
         camera->ProcessKeyboard( LEFT, deltaTime );
-        
-        model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
-        
     }
     
-    if( keys[GLFW_KEY_D] )
-    {
+    if( keys[GLFW_KEY_D] ) {
         camera->ProcessKeyboard( RIGHT, deltaTime );
-        model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
-        
-    }
-    
-    if(keys[GLFW_KEY_UP] )
-    {
-        model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0f));
-    }
-    
-    if(keys[GLFW_KEY_DOWN] )
-    {
-        model = glm::translate(model, glm::vec3(-2.0f, 0.0f, 0.0f));
-    }
-    
-    if( keys[GLFW_KEY_LEFT] )
-    {
-        model = glm::translate(model, glm::vec3(0.0f, 2.0f, 0.0f));
-        
-    }
-    
-    if( keys[GLFW_KEY_RIGHT] )
-    {
-        model = glm::translate(model, glm::vec3(0.0f, -2.0f, 0.0f));
     }
 }
+
+
+
 
 // Is called whenever a key is pressed/released via GLFW
 static void KeyCallback( GLFWwindow *window, int key, int scancode, int action, int mode )
@@ -202,7 +176,7 @@ public:
         
         Triangle* tri = new Triangle();
         tri->Init();
-        Cube* cube = new Cube();
+        cube = new Cube();
         cube->Init();
         
         shader = new Shaders();
@@ -224,11 +198,13 @@ public:
             glClearColor(0.0f/255.0f, 0.0f/255.0f, 0.0f/255.0f, 1.0f);
             
             // Setting the model, view and projection matrices
-            glm::mat4 model         = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-            glm::mat4 view          = glm::mat4(1.0f);
-            glm::mat4 projection    = glm::mat4(1.0f);
+            //model         = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+            view          = glm::mat4(1.0f);
+            projection    = glm::mat4(1.0f);
             
-            model = glm::rotate(model, (float)glfwGetTime() * glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+            //model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+            DoModelTranslation(model);
+            //model = glm::translate(model, glm::vec3(0.0f, (float)glfwGetTime() * 0.01f, 0.0f));
             view  = camera->GetViewMatrix();
             projection = glm::perspective(camera->GetZoom(), (float) windowsWidth / (float) windowsHeigth, 0.1f, 1000.0f);
             
@@ -249,12 +225,31 @@ public:
         glfwTerminate();
     }
     
+    void DoModelTranslation(glm::mat4& model_) {
+        if( keys[GLFW_KEY_UP] ) {
+            cube->CalculateTranslation( 1, model_,deltaTime );
+        }
+        
+        if( keys[GLFW_KEY_DOWN]  ) {
+            cube->CalculateTranslation( 2, model_,deltaTime );
+        }
+        
+        if( keys[GLFW_KEY_LEFT] ) {
+            cube->CalculateTranslation( 3, model_,deltaTime );
+        }
+        
+        if( keys[GLFW_KEY_RIGHT] ) {
+            cube->CalculateTranslation( 4, model_,deltaTime );
+        }
+    }
+    
 private:
     int windowsHeigth = 1080;
     int windowsWidth = 1920;
     GLFWwindow *window;
     Shaders *shader;
     GLuint programID;
+    Cube* cube;
     
 };
 
