@@ -23,7 +23,7 @@
 #include "Cube.h"
 #include "Triangle.h"
 #include "Shaders.h"
-#include "Aircraft.h"
+#include "Polygon.h"
 #include "Camera.h"
 
 GLfloat lastX;
@@ -61,9 +61,6 @@ void DoMovement( )
     }
 }
 
-
-
-
 // Is called whenever a key is pressed/released via GLFW
 static void KeyCallback( GLFWwindow *window, int key, int scancode, int action, int mode )
 {
@@ -84,9 +81,6 @@ static void KeyCallback( GLFWwindow *window, int key, int scancode, int action, 
         }
     }
 }
-
-
-
 
 class MainWindow {
 
@@ -174,10 +168,8 @@ public:
 
     void Run() {
         
-        Triangle* tri = new Triangle();
-        tri->Init();
-        cube = new Cube();
-        cube->Init();
+        polygon = new Polygon();
+        polygon->Init();
         
         shader = new Shaders();
         shader->Init();
@@ -213,13 +205,13 @@ public:
             shader->EditMatrix4("projection", projection);
             // End of the setting
             
-            cube->Draw();
+            polygon->Draw();
+            //obstacle->Draw();
             glfwSwapBuffers(window);
             
         }
         
-        delete cube;
-        delete tri;
+        delete polygon;
         delete shader;
         
         glfwTerminate();
@@ -227,19 +219,19 @@ public:
     
     void DoModelTranslation(glm::mat4& model_) {
         if( keys[GLFW_KEY_UP] ) {
-            cube->CalculateTranslation( 1, model_,deltaTime );
+            polygon->CalculateTranslation( 1, model_, deltaTime );
         }
         
         if( keys[GLFW_KEY_DOWN]  ) {
-            cube->CalculateTranslation( 2, model_,deltaTime );
+            polygon->CalculateTranslation( 2, model_, deltaTime );
         }
         
         if( keys[GLFW_KEY_LEFT] ) {
-            cube->CalculateTranslation( 3, model_,deltaTime );
+            polygon->CalculateTranslation( 3, model_, deltaTime );
         }
         
         if( keys[GLFW_KEY_RIGHT] ) {
-            cube->CalculateTranslation( 4, model_,deltaTime );
+            polygon->CalculateTranslation( 4, model_, deltaTime );
         }
     }
     
@@ -249,7 +241,7 @@ private:
     GLFWwindow *window;
     Shaders *shader;
     GLuint programID;
-    Cube* cube;
+    Polygon* polygon;
     
 };
 

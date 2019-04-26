@@ -62,6 +62,27 @@ public:
         glBindVertexArray(0);
     }
     
+    void CalculateTranslation(int mode, glm::mat4& model_, float delta_time) {
+        // Mesh controls
+        unit = movementSpeed * delta_time;
+        
+        if(mode == 1) {
+            model_ = glm::translate(model_, glm::vec3(0.0f, unit, 0.0f));
+        }
+        
+        if(mode == 2) {
+            model_ = glm::translate(model_, glm::vec3(0.0f, -unit, 0.0f));
+        }
+        
+        if(mode == 3) {
+            model_ = glm::rotate(model_, glm::radians(0.5f), glm::vec3(0.0f, 0.0f, 1.0f));
+        }
+        
+        if(mode == 4) {
+            model_ = glm::rotate(model_, glm::radians(0.5f), glm::vec3(0.0f, 0.0f, -1.0f));
+        }
+    }
+    
     
 private:
     unsigned int indices[9] = {
@@ -80,6 +101,8 @@ private:
     unsigned int VBO;
     unsigned int IBO;
     unsigned int indexCount;
+    float unit = 0.0f;
+    float movementSpeed = 2.0f;
 };
 
 #endif /* Triangle_h */

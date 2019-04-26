@@ -36,7 +36,7 @@
 		423E4E6322196107001DE7ED /* libGLEW.2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.1.0.dylib; path = ../Cellar/glew/2.1.0/lib/libGLEW.2.1.0.dylib; sourceTree = "<group>"; };
 		423E4E65221961C8001DE7ED /* libglfw.3.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.2.dylib; path = ../Cellar/glfw/3.2.1/lib/libglfw.3.2.dylib; sourceTree = "<group>"; };
 		4272DAA9224966F100AA09AD /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
-		429FD856226A6D3F006F149B /* Aircraft.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Aircraft.h; sourceTree = "<group>"; };
+		42CDEEDE22735952000E965D /* Polygon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Polygon.h; sourceTree = "<group>"; };
 		42D0978D2230C0EE005C7AFA /* Triangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Triangle.h; sourceTree = "<group>"; };
 		42D8EE802219634C00C2AAC2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		42D8EE822219635000C2AAC2 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -88,7 +88,7 @@
 				42D0978D2230C0EE005C7AFA /* Triangle.h */,
 				421787B02247CDA600E3F2A1 /* Shaders.h */,
 				4272DAA9224966F100AA09AD /* Camera.h */,
-				429FD856226A6D3F006F149B /* Aircraft.h */,
+				42CDEEDE22735952000E965D /* Polygon.h */,
 			);
 			path = "gl-modeling-tool";
 			sourceTree = "<group>";

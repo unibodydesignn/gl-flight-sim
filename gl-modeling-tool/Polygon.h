@@ -1,28 +1,23 @@
 //
-//  Cube.h
+//  Polygon.h
 //  gl-modeling-tool
 //
-//  Created by Melih Mete on 17.02.2019.
+//  Created by Melih Mete on 26.04.2019.
 //  Copyright © 2019 Melih Mete. All rights reserved.
 //
 
-#ifndef Cube_h
-#define Cube_h
+#ifndef Polygon_h
+#define Polygon_h
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-class Cube {
-
+class Polygon {
+    
 public:
-    Cube() {
-        length = 5;
+    Polygon() {
         VAO = 0;
         VBO = 0;
     }
     
-    ~Cube() {
+    ~Polygon() {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
         glDeleteVertexArrays(1, &VAO);
@@ -35,18 +30,21 @@ public:
         
         glGenBuffers(1, &VBO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[0]) * 36, vertices, GL_STATIC_DRAW);
         
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
         glEnableVertexAttribArray(0);
         
-        glBindVertexArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         
+        glBindVertexArray(0);
     }
     
     void Draw() {
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
     }
     
@@ -71,34 +69,33 @@ public:
         }
     }
     
-    
 private:
-    /*
-    // use with Perspective Projection
-    float vertices[180] = {
-        -1.0, -1.0,  1.0,
-        1.0, -1.0,  1.0,
-        1.0,  1.0,  1.0,
-        -1.0,  1.0,  1.0,
-        // back
-        -1.0, -1.0, -1.0,
-        1.0, -1.0, -1.0,
-        1.0,  1.0, -1.0,
-        -1.0,  1.0, -1.0
-    };
-    */
+    GLuint VAO;
+    GLuint VBO;
     
-    GLfloat vertices[9] = {
-        -1.0f, -1.0f, 0.0f,
-        1.0f, -1.0f, 0.0f,
-        0.0f,  1.0f, 0.0f,
+    GLfloat vertices[36] = {
+        
+        0.0f, 1.0f, -1.0f,
+        -1.0f, 0.0f, -1.0f,
+        -1.0f, 1.0f, -1.0f,
+        
+        -1.0f, 0.0f, -1.0f,
+        0.0f, 0.0f, -1.0f,
+        0.0f, 1.0f, -1.0f, 
+        
+        -1.0f, 0.0f, -1.0f,
+        -1.0f, 1.0f, -1.0f,
+        -1.0f, 0.0f, -2.0f,
+        
+        -1.0f, 1.0f, -1.0f,
+        -1.0f, 0.0f, -2.0f,
+        -1.0f, 1.0f, -2.0f
+        
     };
     
-    unsigned int length;
-    unsigned int VAO;
-    unsigned int VBO;
     float unit = 0.0f;
     float movementSpeed = 2.0f;
+    
 };
 
-#endif /* Cube_h */
+#endif /* Polygon_h */

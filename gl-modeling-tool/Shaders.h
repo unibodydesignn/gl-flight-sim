@@ -23,15 +23,15 @@ public:
     Shaders() {
         VertexShaderCode =R"glsl(
                         #version 120
-                        attribute vec2 position;
+                        attribute vec3 position;
         
                         uniform mat4 model;
                         uniform mat4 view;
                         uniform mat4 projection;
                         uniform vec2 cogPosition;
-        
+                        // position vectorunu 2d'den 3d yaptıgımda duzeldi sebebini arastir
                         void main() {
-                            gl_Position = projection * view * model * vec4(position, 0.2f, 1.0f);
+                            gl_Position = projection * view * model * vec4(position, 1.0f);
                             //cogPosition = position;
                         }
                         )glsl";
