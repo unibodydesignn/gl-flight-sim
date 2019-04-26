@@ -28,10 +28,11 @@ public:
                         uniform mat4 model;
                         uniform mat4 view;
                         uniform mat4 projection;
+                        uniform mat4 mvp;
                         uniform vec2 cogPosition;
                         // position vectorunu 2d'den 3d yaptıgımda duzeldi sebebini arastir
                         void main() {
-                            gl_Position = projection * view * model * vec4(position, 1.0f);
+                            gl_Position = mvp * vec4(position, 1.0f);
                             //cogPosition = position;
                         }
                         )glsl";
@@ -118,16 +119,8 @@ public:
     }
     
     void EditMatrix4(std::string m_name, glm::mat4 matrix) {
-        if(m_name == "model") {
-            int modelLoc = glGetUniformLocation(ProgramID, m_name.c_str());
-            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(matrix));
-        } else if(m_name == "view"){
-            int modelLoc = glGetUniformLocation(ProgramID, m_name.c_str());
-            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &matrix[0][0]);
-        } else {
-            int modelLoc = glGetUniformLocation(ProgramID, m_name.c_str());
-            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(matrix));
-        }
+        int modelLoc = glGetUniformLocation(ProgramID, m_name.c_str());
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(matrix));
     }
     
 private:

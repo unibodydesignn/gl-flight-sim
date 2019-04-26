@@ -164,6 +164,7 @@ public:
         model = glm::mat4(1.0f);
         view = glm::mat4(1.0f);
         projection = glm::mat4(1.0f);
+        mvp = glm::mat4(1.0f);
     }
 
     void Run() {
@@ -178,6 +179,7 @@ public:
         
         while (!glfwWindowShouldClose(window)) {
             
+            // Calculating deltaTime to disable performance differences
             GLfloat currentFrame = glfwGetTime( );
             deltaTime = currentFrame - lastFrame;
             lastFrame = currentFrame;
@@ -189,49 +191,49 @@ public:
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glClearColor(0.0f/255.0f, 0.0f/255.0f, 0.0f/255.0f, 1.0f);
             
-            // Setting the model, view and projection matrices
-            //model         = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-            view          = glm::mat4(1.0f);
-            projection    = glm::mat4(1.0f);
-            
-            //model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+            // Calculating model, view & projection matrices
             DoModelTranslation(model);
-            //model = glm::translate(model, glm::vec3(0.0f, (float)glfwGetTime() * 0.01f, 0.0f));
             view  = camera->GetViewMatrix();
             projection = glm::perspective(camera->GetZoom(), (float) windowsWidth / (float) windowsHeigth, 0.1f, 1000.0f);
+            mvp = projection * view * model;
             
-            shader->EditMatrix4("model", model);
-            shader->EditMatrix4("view", view);
-            shader->EditMatrix4("projection", projection);
-            // End of the setting
+            //Setting the last matrix on shader object.
+            shader->EditMatrix4("mvp", mvp);
             
+            // Drawing polygon
             polygon->Draw();
-            //obstacle->Draw();
+            
+            // Swaping buffers to render objects
             glfwSwapBuffers(window);
             
         }
         
         delete polygon;
         delete shader;
+        delete camera;
         
         glfwTerminate();
     }
     
-    void DoModelTranslation(glm::mat4& model_) {
+    void DoModelTranslation(glm::mat4& modelMatrix) {
         if( keys[GLFW_KEY_UP] ) {
-            polygon->CalculateTranslation( 1, model_, deltaTime );
+            polygon->CalculateTranslation( 1, modelMatrix, deltaTime );
         }
         
         if( keys[GLFW_KEY_DOWN]  ) {
-            polygon->CalculateTranslation( 2, model_, deltaTime );
+            polygon->CalculateTranslation( 2, modelMatrix, deltaTime );
         }
         
         if( keys[GLFW_KEY_LEFT] ) {
-            polygon->CalculateTranslation( 3, model_, deltaTime );
+            polygon->CalculateTranslation( 3, modelMatrix, deltaTime );
         }
         
         if( keys[GLFW_KEY_RIGHT] ) {
-            polygon->CalculateTranslation( 4, model_, deltaTime );
+            polygon->CalculateTranslation( 4, modelMatrix, deltaTime );
+        }
+        
+        if (false) {
+            polygon->CalculateTranslation(5, modelMatrix, deltaTime);
         }
     }
     
@@ -242,6 +244,7 @@ private:
     Shaders *shader;
     GLuint programID;
     Polygon* polygon;
+    glm::mat4 mvp;
     
 };
 
